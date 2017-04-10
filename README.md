@@ -9,7 +9,9 @@ To setup the VM:
 - Disable ASLR: ```echo kernel.randomize_va_space = 0  | sudo tee /etc/sysctl.d/01-disable-aslr.conf ```
 - Enable ptrace: ```sudo sed -i 's/kernel.yama.ptrace_scope = 1/kernel.yama.ptrace_scope = 0/' /etc/sysctl.d/10-ptrace.conf ```
 - Install xinetd.conf: ```sudo apt install xinetd```
-- Enable xinet profile: ```sudo cat > /etc/xinetd/chal1 << **
+- Enable xinet profile: 
+```bash
+sudo cat > /etc/xinetd/chal1 << **
 service chal1
 {
 		disable = no
@@ -19,7 +21,8 @@ service chal1
 		wait = no
 		server = /root/chal1
 		port = 9999
-}```
+}
+```
 
 ## Compile the binaries
 
