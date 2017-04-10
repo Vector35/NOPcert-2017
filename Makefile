@@ -7,9 +7,9 @@ chal1: chal1.c Makefile
 	sudo cp chal1 /root/chal1
 
 chal2: chal2.c Makefile
-	gcc -o chal2 chal2.c -ldl -std=gnu99 -z execstack -fno-stack-protector -D_FORTIFY_SOURCE=0 -D_GNU_SOURCE -Wall -Wextra -Wshadow
+	gcc -o chal2 chal2.c -ldl -std=gnu99 -Wl,-z,norelro -D_GNU_SOURCE -Wall -Wextra -Wshadow
 	sudo chown root:root chal2
-	sudo cp chal2 /root/chal2
+	sudo chmod u+s chal2
 
 clean:
 	rm -f chal1 chal2

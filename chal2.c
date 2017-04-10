@@ -1,14 +1,34 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/mman.h>
-
-char shellCodeGoesHere[512];
+#include <sys/types.h>
+#include <unistd.h>
 
 int main()
 {
+	unsigned int codesize = 4096;
+	void * address = 0;
+	void * requested = (void *) 0x41414000;
+
+	seteuid(0);
+	setuid(0);
+	setgid(0);
+	setegid(0);
+
+	address = mmap(requested, codesize, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_ANONYMOUS | MAP_PRIVATE, 0, 0);
+	if (address != requested)
+	{
+		printf("Something is wrong, %x is not equal to %x.", address, requested);
+		exit(1);
+	}
+
+	printf("I am a SUID binary, compiled with:\n\n");
+	printf("-ldl -std=gnu99 -Wl,-z,norelro -Wall -Wextra -Wshadow\n\n");
+	printf("Goal is to cat /flag.\n\n");
+
 	long what;
 	long *where = (long *) 1;
 	setbuf(stdout, NULL);
-	mprotect(shellCodeGoesHere, 512, PROT_READ | PROT_WRITE | PROT_EXEC);
 	while(where != 0)
 	{
 		puts("What?");
